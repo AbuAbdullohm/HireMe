@@ -1,7 +1,7 @@
-import React, {Component} from 'react';
-import {BrowserRouter as Router} from "react-router-dom";
+import React from "react";
+import { BrowserRouter as Router } from "react-router-dom";
 import Header from "./layouts/Header";
-import Main from './pages/Main';
+import Main from "./pages/Main";
 import Signin from "./pages/Signin";
 import Signup from "./pages/Signup";
 import Jobs from "./pages/Jobs";
@@ -20,29 +20,26 @@ import PostJob from "./pages/PostJob";
 // to starting our app
 // after that we will develop other services
 
-
-class App extends Component {
-    render() {
-        return (
-            <Router>
-                <React.Fragment>
-                    <Header />
-                    <Switch>
-                        <Route exact path="/" component={Main}/>
-                        <Route path="/signin" component={Signin}/>
-                        <Route path="/signup" component={Signup}/>
-                        <Route exact path="/jobs" component={Jobs}/>
-                        <Route path="/jobs/post" component={PostJob}/>
-                        <Route path="/jobs/:id" component={JobView}/>
-                        <Route exact path="/companies" component={Companies}/>
-                        <Route path="/companies/:id" component={CompanyView}/>
-                        <Route path="/feed/:id" component={FeedView}/>
-                        <Route component={Notfound}/>
-                    </Switch>
-                </React.Fragment>
-            </Router>
-            )
-    }
-}
+const App = () => {
+  return (
+    <Router>
+      <React.Fragment>
+        <Header />
+        <Switch>
+          <Route exact path="/" component={Main} />
+          <Route path="/signin" component={Signin} />
+          <Route path="/signup" component={Signup} />
+          <Route exact path="/jobs" component={Jobs} />
+          <Route path="/jobs/post" component={PostJob} />
+          <Route path="/jobs/:id" component={JobView} />
+          <Route exact path="/companies" component={Companies} />
+          <Route path="/companies/:id" component={CompanyView} />
+          <Route path="/feed/:id" component={FeedView} />
+          <Route component={Notfound} />
+        </Switch>
+      </React.Fragment>
+    </Router>
+  );
+};
 
 export default App;

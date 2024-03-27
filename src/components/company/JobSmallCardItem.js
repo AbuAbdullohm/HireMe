@@ -1,26 +1,24 @@
-import React, {Component} from 'react';
-import {Link} from "react-router-dom";
+import React from "react";
+import { Link } from "react-router-dom";
 
-class JobSmallCardItem extends Component {
-    render(){
-        return(
-            <div className="job-info">
-
-                <Link to={`/jobs/` + this.props.id}>
-                    <div class="job-small-card_item">
-                        <div className="job-details">
-                            <h4>{this.props.name}</h4>
-                            <div>{(this.props.employer_name)}</div>
-                        </div>
-                        <div className="hr-rate">
-                            <span>${this.props.salary_from} - ${this.props.salary_to}/hr</span>
-                        </div>
-                    </div>
-                </Link>
-            </div>
-
-        );
-    }
-}
+const JobSmallCardItem = (props) => {
+  return (
+    <div className="job-info">
+      <Link to={`/jobs/${props.id}`}>
+        <div className="job-small-card_item">
+          <div className="job-details">
+            <h4>{props.name}</h4>
+            <div>{props.employer_name}</div>
+          </div>
+          <div className="hr-rate">
+            <span>
+              ${props.salary_from} - ${props.salary_to}/hr
+            </span>
+          </div>
+        </div>
+      </Link>
+    </div>
+  );
+};
 
 export default JobSmallCardItem;
