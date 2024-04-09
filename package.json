@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "@types/react-router": "^5.1.20",
+    "axios": "^1.6.8",
     "query-string": "^6.8.1",
     "react": "^16.14.0",
     "react-dom": "^16.8.6",

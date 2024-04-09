@@ -49,7 +49,7 @@ const TopJobsWidget = (props) => {
     return (
       <div className="widget widget-jobs">
         <div className="sd-title">
-          <h3>{widgetName.widget_name}</h3>
+          <h3>{widgetName}</h3>
           <i className="la la-ellipsis-v"></i>
         </div>
         <section

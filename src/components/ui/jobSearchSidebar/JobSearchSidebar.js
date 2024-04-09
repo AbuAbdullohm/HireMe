@@ -115,7 +115,7 @@ const JobSearchSidebar = () => {
             <input
               className="range-slider"
               type="text"
-              value=""
+              defaultValue=""
               data-slider-currency="$"
               data-slider-min="1500"
               data-slider-max="15000"

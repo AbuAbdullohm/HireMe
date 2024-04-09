@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from "react";
 import FullwidthLayout from "./../layouts/FullwidthLayout";
 import JobCardGridItem from "./../components/job/JobCardGridItem";
+import JobSmallCardItem from "./../components/job/JobSmallCardItem";
 import Pagination from "./../components/ui/pagination/Pagination";
 import JobSearchSidebar from "../components/ui/jobSearchSidebar/JobSearchSidebar";
 import { Link } from "react-router-dom";
 import queryString from "query-string";
+import axios from "axios";
 
 export default function Jobs(props) {
   const [error, setError] = useState();
@@ -13,25 +15,39 @@ export default function Jobs(props) {
 
   //   fetch("https://vacancy.hire.uz/v1/vacancies?per-page=12" + (specs != undefined ? "&specializations=" + specs : "") + "&page=" + page)
 
-  useEffect(() => {
-    const values = queryString.parse(props.location.search);
-    var specs = values.specializations;
-    var page = values.page;
-    
-
-    fetch(`https://vacancy.hire.uz/v1/vacancies?per-page=12${specs ? "&specializations=" + specs : ""}&page=${page}`)
-      .then((res) => res.json())
-      .then(
-        (result) => {
-          setIsLoaded(true);
-          setData(result.data);
-        },
-        (error) => {
-          setIsLoaded(true);
-          setError(error);
-        }
+  const fetchData = async () => {
+    try {
+      const response = await axios.get(
+        "https://fakestoreapi.com/products"
       );
-  });
+      setData(response.data);
+      console.log(response.data);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
+
+  useEffect(() => {
+    fetchData();
+  }, []);
+
+  // useEffect(() => {
+    // const values = queryString.parse(props.location.search);
+    // var specs = values.specializations;
+    // var page = values.page;
+    // fetch(`https://vacancy.hire.uz/v1/vacancies?per-page=12${specs ? "&specializations=" + specs : ""}&page=${page}`)
+    //   .then((res) => res.json())
+    //   .then(
+    //     (result) => {
+    //       setIsLoaded(true);
+    //       setData(result.data);
+    //     },
+    //     (error) => {
+    //       setIsLoaded(true);
+    //       setError(error);
+    //     }
+    //   );
+  // });
 
   if (error) {
     return (
@@ -246,18 +262,20 @@ export default function Jobs(props) {
               <div className="listings-container grid-layout margin-top-35">
                 {data.map((item) => (
                   <JobCardGridItem
+                    key={item.id}
                     id={item.id}
-                    name={item.name}
-                    salary_from={item.salary.from}
-                    salary_to={item.salary.to}
-                    area_name={item.area.name}
-                    employer_name={item.employer.name}
-                    employer_logo={
-                      item.employer.logo_urls.original !== ""
-                        ? item.employer.logo_urls.original
-                        : "/images/company-logo-placeholder.png"
-                    }
-                    type={item.schedule.name}
+                    name={item.title}
+                    url={item.image}
+                    salary_from={item.price}
+                    salary_to={item.price}
+                    // area_name={item.area.name}
+                    // employer_name={item.employer.name}
+                    // employer_logo={
+                    //   item.employer.logo_urls.original !== ""
+                    //     ? item.employer.logo_urls.original
+                    //     : "/images/company-logo-placeholder.png"
+                    // }
+                    // type={item.schedule.name}
                   />
                 ))}
               </div>
@@ -268,7 +286,7 @@ export default function Jobs(props) {
                 currentPage={1}
                 size={4}
                 totalPages={10}
-                location_query={      props.location.search}
+                location_query={props.location.search}
               />
 
               <div className="clearfix"></div>

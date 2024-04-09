@@ -6,7 +6,7 @@ const JobCardGridItem = (props) => {
     <Link to={`/jobs/${props.id}`} className="job-listing">
       <div className="job-listing-details">
         <div className="job-listing-company-logo">
-          <img src={props.employer_logo} alt={props.name} />
+          <img src={props.url} alt={props.name} />
         </div>
 
         <div className="job-listing-description">
@@ -29,8 +29,8 @@ const JobCardGridItem = (props) => {
           <br />
           <li>
             <i className="icon-material-outline-account-balance-wallet"></i>{" "}
-            {props.salary_from != 0 ? props.salary_from + " UZS" : ""}
-            {props.salary_to != 0 ? " - " + props.salary_to + " UZS" : ""}
+            {props.salary_from !== 0 ? props.salary_from + " UZS" : ""}
+            {props.salary_to !== 0 ? " - " + props.salary_to + " UZS" : ""}
             {props.salary_from + props.salary_to === 0 ? "Сontractual" : ""}
           </li>
           <li>
