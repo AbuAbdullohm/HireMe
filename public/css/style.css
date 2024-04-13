@@ -7178,7 +7178,7 @@ input:checked + .switch-button:before {
 }
 .photo-box:hover:before {
   background: #66676b;
-  opacity: 0.95;
+  opacity: 0.8;
 }
 .photo-box.small {
   height: 160px;

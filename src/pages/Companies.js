@@ -6,6 +6,7 @@ import JobSearchSidebar from "../components/ui/jobSearchSidebar/JobSearchSidebar
 import { Link } from "react-router-dom";
 import queryString from "query-string";
 import CenteredLayout from "../layouts/CenteredLayout";
+import axios from "axios";
 
 export default function Companies(props) {
   const [error, setError] = useState();
@@ -14,24 +15,20 @@ export default function Companies(props) {
 
   // fetch("https://vacancy.hire.uz/v1/employers?per-page=12" + "&page=" + page);
 
-  useEffect(() => {
-    const values = queryString.parse(props.location.search);
-    var specs = values.specializations;
-    var page = values.page;
+  const fetchData = async () => {
+    try {
+      const response = await axios.get("https://fakestoreapi.com/products");
+      setData(response.data);
+      console.log(response.data);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
 
-    fetch(`https://vacancy.hire.uz/v1/employers?per-page=12${page}&${page}`)
-      .then((res) => res.json())
-      .then(
-        (result) => {
-          setIsLoaded(true);
-          setData(result.data);
-        },
-        (error) => {
-          setIsLoaded(true);
-          setError(error);
-        }
-      );
-  });
+  useEffect(() => {
+    fetchData();
+    setIsLoaded(true);
+  }, []);
 
   if (error) {
     return (
@@ -219,9 +216,9 @@ export default function Companies(props) {
                 {data.map((item) => (
                   <CompanyCardGridItem
                     id={item.id}
-                    name={item.name}
-                    logo={item.logo_urls.original}
-                    area_name={item.area.name}
+                    name={item.title}
+                    logo={item.image}
+                    area_name={item.description}
                   />
                 ))}
               </div>

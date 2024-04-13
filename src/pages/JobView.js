@@ -4,28 +4,32 @@ import JobCardGridItem from "./../components/job/JobCardGridItem";
 import { withRouter } from "react-router";
 import renderHTML from "react-render-html";
 import { Link } from "react-router-dom";
+import axios from "axios";
 
 const JobView = (props) => {
   const [error, setError] = useState();
   const [isLoaded, setIsLoaded] = useState();
   const [data, setData] = useState([]);
 
-  useEffect(() => {
-    let id = props.match.params.id;
+  // `https://vacancy.hire.uz/v1/vacancies/${id}`
 
-    fetch(`https://vacancy.hire.uz/v1/vacancies/${id}`)
-      .then((res) => res.json())
-      .then(
-        (result) => {
-          setIsLoaded(true);
-          setData(result.data);
-        },
-        (error) => {
-          setIsLoaded(true);
-          setError(error);
-        }
+  const fetchData = async () => {
+    let id = props.match.params.id;
+    try {
+      const response = await axios.get(
+        `https://fakestoreapi.com/products/${id}`
       );
-  });
+      setData(response.data);
+      console.log(response.data);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
+
+  useEffect(() => {
+    fetchData();
+    setIsLoaded(true);
+  }, []);
 
   if (error) {
     return <div>Error {JSON.stringify(error)}</div>;
@@ -45,8 +49,8 @@ const JobView = (props) => {
                   <div className="left-side">
                     <div className="header-image">
                       <Link to="single-company-profile.html">
-                        {data.employer.logo_urls.original !== "" ? (
-                          <img src={data.employer.logo_urls.original} alt="" />
+                        {data.image !== "" ? (
+                          <img src={data.image} alt="" />
                         ) : (
                           <img
                             src={"/images/company-logo-placeholder.png"}
@@ -57,12 +61,12 @@ const JobView = (props) => {
                     </div>
                     <div className="header-details">
                       <h3>{data.name}</h3>
-                      <h5>{data.employer.name}</h5>
+                      <h5>{data.name}</h5>
                       <ul>
                         <li>
-                          <Link to={"/companies/" + data.employer.id}>
+                          <Link to={"/companies/" + data.id}>
                             <i className="icon-material-outline-business"></i>{" "}
-                            {data.employer.name}
+                            {data.name}
                           </Link>
                         </li>
                         <li>
@@ -84,10 +88,8 @@ const JobView = (props) => {
                         className="salary-amount"
                         style={{ "font-size": "20px" }}
                       >
-                        {data.salary.from != 0 ? data.salary.from + " UZS" : ""}
-                        {data.salary.to != 0
-                          ? " - " + data.salary.to + " UZS"
-                          : ""}
+                        {data.price != 0 ? data.price + " UZS" : ""}
+                        {data.price != 0 ? " - " + data.price + " UZS" : ""}
                       </div>
                     </div>
                   </div>
@@ -101,7 +103,7 @@ const JobView = (props) => {
             <div className="col-xl-8 col-lg-8 content-right-offset">
               <div className="single-page-section">
                 <h3 className="margin-bottom-25">Job Description</h3>
-                <div>{renderHTML(data.description)}</div>
+                <div>{data.description}</div>
               </div>
 
               <div className="single-page-section">
@@ -119,28 +121,27 @@ const JobView = (props) => {
                 </div>
               </div>
 
-              {/*<div className="single-page-section">*/}
-              {/*<h3 className="margin-bottom-25">Similar Jobs</h3>*/}
+              <div className="single-page-section">
+                <h3 className="margin-bottom-25">Similar Jobs</h3>
 
-              {/*<div className="listings-container grid-layout">*/}
+                <div className="listings-container grid-layout">
+                  <JobCardGridItem
+                    id="1"
+                    url={data.image}
+                    name="PHP developer"
+                    salary_from={10000000}
+                    salary_to={20000000}
+                    />
 
-              {/*<JobCardGridItem*/}
-              {/*id="1"*/}
-              {/*name="PHP developer"*/}
-              {/*salary_from={10000000}*/}
-              {/*salary_to={20000000}*/}
-              {/*/>*/}
-
-              {/*<JobCardGridItem*/}
-              {/*id="1"*/}
-              {/*name="Web developer"*/}
-              {/*salary_from={10000000}*/}
-              {/*salary_to={20000000}*/}
-              {/*/>*/}
-
-              {/*</div>*/}
-
-              {/*</div>*/}
+                  <JobCardGridItem
+                    id="1"
+                    url={data.image}
+                    name="Web developer"
+                    salary_from={10000000}
+                    salary_to={20000000}
+                  />
+                </div>
+              </div>
             </div>
 
             <div className="col-xl-4 col-lg-4">
@@ -161,27 +162,21 @@ const JobView = (props) => {
                         <li>
                           <i className="icon-material-outline-location-on"></i>
                           <span>Location</span>
-                          <h5>{data.area.name}</h5>
+                          <h5>{data.title}</h5>
                         </li>
                         <li>
                           <i className="icon-material-outline-business-center"></i>
                           <span>Job Type</span>
                           <h5>
-                            {data.type.name == ""
-                              ? "Full time"
-                              : data.type.name}
+                            {data.category == "" ? "Full time" : data.category}
                           </h5>
                         </li>
                         <li>
                           <i className="icon-material-outline-local-atm"></i>
                           <span>Salary</span>
                           <h5>
-                            {data.salary.from != 0
-                              ? data.salary.from + " UZS"
-                              : ""}
-                            {data.salary.to != 0
-                              ? " - " + data.salary.to + " UZS"
-                              : ""}
+                            {data.price != 0 ? data.price + " UZS" : ""}
+                            {data.price != 0 ? " - " + data.price + " UZS" : ""}
                           </h5>
                         </li>
                         <li>

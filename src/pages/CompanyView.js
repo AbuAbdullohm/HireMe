@@ -4,28 +4,30 @@ import JobCardGridItem from "./../components/job/JobCardGridItem";
 import { withRouter } from "react-router";
 import renderHTML from "react-render-html";
 import { Link } from "react-router-dom";
+import axios from "axios";
 
 const CompanyView = (props) => {
   const [error, setError] = useState();
   const [isLoaded, setIsLoaded] = useState();
   const [data, setData] = useState([]);
 
-  useEffect(() => {
+  const fetchData = async () => {
     let id = props.match.params.id;
-
-    fetch(`https://vacancy.hire.uz/v1/employers/${id}`)
-      .then((res) => res.json())
-      .then(
-        (result) => {
-          setIsLoaded(true);
-          setData(result.data);
-        },
-        (error) => {
-          setIsLoaded(true);
-          setError(error);
-        }
+    try {
+      const response = await axios.get(
+        `https://fakestoreapi.com/products/${id}`
       );
-  });
+      setData(response.data);
+      console.log(response.data);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
+
+  useEffect(() => {
+    fetchData();
+    setIsLoaded(true);
+  }, []);
 
   if (error) {
     return <div>Error {JSON.stringify(error)}</div>;
@@ -44,8 +46,8 @@ const CompanyView = (props) => {
                 <div className="single-page-header-inner">
                   <div className="left-side">
                     <div className="header-image">
-                      {data.logo_urls.original ? (
-                        <img src={data.logo_urls.original} alt="" />
+                      {data.image ? (
+                        <img src={data.image} alt="" />
                       ) : (
                         <img
                           src={"images/company-logo-placeholder.png"}
@@ -54,7 +56,7 @@ const CompanyView = (props) => {
                       )}
                     </div>
                     <div className="header-details">
-                      <h3>{data.name}</h3>
+                      <h3>{data.title}</h3>
                       <ul>
                         <li>
                           <div className="star-rating" data-rating="4.9"></div>
@@ -65,7 +67,7 @@ const CompanyView = (props) => {
                             src="/images/flags/de.svg"
                             alt=""
                           />{" "}
-                          {data.area.name}
+                          {data.description}
                         </li>
                         <li>
                           <div className="verified-badge-with-title">
@@ -209,7 +211,7 @@ const CompanyView = (props) => {
                     <input
                       id="copy-url"
                       type="text"
-                      value={"https://hire.uz" + props.location.pathname}
+                      // value={"https://hire.uz" + props.location.pathname}
                       className="with-border"
                     />
                     <button

@@ -33,6 +33,16 @@ export default function Footer() {
                         </li>
                         <li>
                           <a
+                            href="https://t.me/rteco"
+                            title="Telegram"
+                            data-tippy-placement="bottom"
+                            data-tippy-theme="light"
+                          >
+                            <i className="icon-brand-telegram"></i>
+                          </a>
+                        </li>
+                        <li>
+                          <a
                             href="https://twitter.com/rteco1"
                             title="Twitter"
                             data-tippy-placement="bottom"

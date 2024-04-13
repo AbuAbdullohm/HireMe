@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import "./Main.css";
 
 import { Link } from "react-router-dom";
+import axios from "axios";
 
 import FullwidthLayout from "../layouts/FullwidthLayout";
 import Footer from "../layouts/Footer";
@@ -16,24 +17,22 @@ const Main = (props) => {
   const [queryCondition] = useState(props.queryCondition);
   const [data, setData] = useState([]);
 
-//   fetch("https://vacancy.hire.uz/v1/vacancies?per-page=" + this.state.size + `&` + this.state.queryCondition);
+  //   fetch("https://vacancy.hire.uz/v1/vacancies?per-page=" + this.state.size + `&` + this.state.queryCondition);
+
+  const fetchData = async () => {
+    try {
+      const response = await axios.get("https://fakestoreapi.com/products");
+      setData(response.data);
+      console.log(response.data);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
 
   useEffect(() => {
-    fetch(
-      `https://vacancy.hire.uz/v1/vacancies?per-page=${props.size}&${props.queryCondition}`
-    )
-      .then((res) => res.json())
-      .then(
-        (result) => {
-          setIsLoaded(true);
-          setData(result.data);
-        },
-        (error) => {
-          setIsLoaded(true);
-          setError(error);
-        }
-      );
-  });
+    fetchData();
+    setIsLoaded(true);
+  }, []);
 
   if (error) {
     return (
@@ -101,42 +100,61 @@ const Main = (props) => {
             <div className="row">
               <div className="col-md-12">
                 <div className="intro-banner-search-form margin-top-95">
-                  {/*<div className="intro-search-field with-autocomplete">*/}
-                  {/*<label htmlFor="autocomplete-input"*/}
-                  {/*className="field-title ripple-effect">Where?</label>*/}
-                  {/*<div className="input-with-icon">*/}
-                  {/*<input id="autocomplete-input" type="text" placeholder="Online Job" />*/}
-                  {/*<i className="icon-material-outline-location-on"></i>*/}
-                  {/*</div>*/}
-                  {/*</div>*/}
+                  {/* <div className="intro-search-field with-autocomplete">
+                    <label
+                      htmlFor="autocomplete-input"
+                      className="field-title ripple-effect"
+                    >
+                      Where?
+                    </label>
+                    <div className="input-with-icon">
+                      <input
+                        id="autocomplete-input"
+                        type="text"
+                        placeholder="Online Job"
+                      />
+                      <i className="icon-material-outline-location-on"></i>
+                    </div>
+                  </div> */}
 
-                  {/*<div className="intro-search-field">*/}
-                  {/*<label htmlFor="intro-keywords" className="field-title ripple-effect">What*/}
-                  {/*you need done?</label>*/}
-                  {/*<input id="intro-keywords" type="text" placeholder="e.g. build me a website" />*/}
-                  {/*</div>*/}
+                  <div className="intro-search-field">
+                    <label
+                      htmlFor="intro-keywords"
+                      className="field-title ripple-effect"
+                    >
+                      What you need done?
+                    </label>
+                    <input
+                      id="intro-keywords"
+                      type="text"
+                      placeholder="e.g. build me a website"
+                    />
+                  </div>
 
-                  {/*<div className="intro-search-field">*/}
-                  {/*<select className="selectpicker default" multiple*/}
-                  {/*data-selected-text-format="count" data-size="7"*/}
-                  {/*title="All Categories">*/}
-                  {/*<option>Admin Support</option>*/}
-                  {/*<option>Customer Service</option>*/}
-                  {/*<option>Data Analytics</option>*/}
-                  {/*<option>Design & Creative</option>*/}
-                  {/*<option>Legal</option>*/}
-                  {/*<option>Software Developing</option>*/}
-                  {/*<option>IT & Networking</option>*/}
-                  {/*<option>Writing</option>*/}
-                  {/*<option>Translation</option>*/}
-                  {/*<option>Sales & Marketing</option>*/}
-                  {/*</select>*/}
-                  {/*</div>*/}
+                  <div className="intro-search-field">
+                    <select
+                      className="selectpicker default"
+                      multiple
+                      data-selected-text-format="count"
+                      data-size="7"
+                      title="All Categories"
+                    >
+                      <option>Admin Support</option>
+                      <option>Customer Service</option>
+                      <option>Data Analytics</option>
+                      <option>Design & Creative</option>
+                      <option>Legal</option>
+                      <option>Software Developing</option>
+                      <option>IT & Networking</option>
+                      <option>Writing</option>
+                      <option>Translation</option>
+                      <option>Sales & Marketing</option>
+                    </select>
+                  </div>
 
-                  {/*<div className="intro-search-button">*/}
-                  {/*<button className="button ripple-effect">Search*/}
-                  {/*</button>*/}
-                  {/*</div>*/}
+                  <div className="intro-search-button">
+                    <button className="button ripple-effect">Search</button>
+                  </div>
                 </div>
               </div>
             </div>
@@ -333,12 +351,13 @@ const Main = (props) => {
                 <div className="tasks-list-container compact-list margin-top-35">
                   {data.map((item) => (
                     <TaskCardListItem
+                      key={item.id}
                       id={item.id}
-                      name={item.name}
-                      salary_from={item.salary.from}
-                      salary_to={item.salary.to}
-                      area_id={item.area.id}
-                      area_name={item.area.name}
+                      name={item.title}
+                      salary_from={item.price}
+                      salary_to={item.price}
+                      area_id={item.category}
+                      area_name={item.description}
                     />
                   ))}
                 </div>

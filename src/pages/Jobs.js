@@ -29,25 +29,8 @@ export default function Jobs(props) {
 
   useEffect(() => {
     fetchData();
+    setIsLoaded(true)
   }, []);
-
-  // useEffect(() => {
-    // const values = queryString.parse(props.location.search);
-    // var specs = values.specializations;
-    // var page = values.page;
-    // fetch(`https://vacancy.hire.uz/v1/vacancies?per-page=12${specs ? "&specializations=" + specs : ""}&page=${page}`)
-    //   .then((res) => res.json())
-    //   .then(
-    //     (result) => {
-    //       setIsLoaded(true);
-    //       setData(result.data);
-    //     },
-    //     (error) => {
-    //       setIsLoaded(true);
-    //       setError(error);
-    //     }
-    //   );
-  // });
 
   if (error) {
     return (

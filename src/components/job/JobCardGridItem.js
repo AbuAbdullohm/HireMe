@@ -10,8 +10,8 @@ const JobCardGridItem = (props) => {
         </div>
 
         <div className="job-listing-description">
-          <h4 className="job-listing-company">{props.employer_name}</h4>
-          <h3 className="job-listing-title">{props.name}</h3>
+          <h4 className="job-listing-company">{props.title}</h4>
+          <h3 className="job-listing-title">{props.description}</h3>
         </div>
       </div>
 
